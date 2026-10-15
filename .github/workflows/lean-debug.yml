@@ -78,3 +78,5 @@ jobs:
         with:
           build: "true"
           build-args: "Erdos99"
+      - name: Audit theorem axioms
+        run: lake env lean Audit.lean
