@@ -1,0 +1,16 @@
+name = "RequestProject"
+defaultTargets = ["Erdos99"]
+
+[[require]]
+name = "mathlib"
+git = "https://github.com/leanprover-community/mathlib4.git"
+rev = "v4.28.0"
+
+# The formalization, in ten files: `Erdos99.lean` (main theorem) and `Erdos99/Part01…Part09`.
+[[lean_lib]]
+name = "Erdos99"
+
+# The earlier many-file layout of the same development (not built by default).
+[[lean_lib]]
+name = "RequestProject"
+globs = ["RequestProject.+"]
