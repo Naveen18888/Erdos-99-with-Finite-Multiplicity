@@ -1,0 +1,80 @@
+name: Lean build diagnostics
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Show commit and repository files
+        shell: bash
+        run: |
+          echo "Commit being tested:"
+          git rev-parse HEAD
+
+          echo "Current directory:"
+          pwd
+
+          echo "Top-level files:"
+          ls -lab
+
+          echo "Tracked Lean files and project configuration:"
+          git ls-files '*.lean' '*lakefile*' '*lean-toolchain*' '*lake-manifest*'
+
+      - name: Check required files
+        shell: bash
+        run: |
+          missing=0
+
+          for file in Erdos99.lean lean-toolchain lake-manifest.json; do
+            if [ -f "$file" ]; then
+              echo "FOUND: $file"
+            else
+              echo "::error::Missing required file at repository root: $file"
+              missing=1
+            fi
+          done
+
+          if [ ! -f lakefile.toml ] && [ ! -f lakefile.lean ]; then
+            echo "::error::Missing lakefile.toml or lakefile.lean"
+            missing=1
+          fi
+
+          if [ "$missing" -ne 0 ]; then
+            exit 1
+          fi
+
+      - name: Show build configuration and main imports
+        shell: bash
+        run: |
+          echo "Lean toolchain:"
+          cat lean-toolchain
+
+          if [ -f lakefile.toml ]; then
+            echo "lakefile.toml:"
+            cat lakefile.toml
+          fi
+
+          if [ -f lakefile.lean ]; then
+            echo "lakefile.lean:"
+            cat lakefile.lean
+          fi
+
+          echo "Beginning of Erdos99.lean:"
+          sed -n '1,100p' Erdos99.lean
+
+      - name: Set up Lean and build Erdos99
+        uses: leanprover/lean-action@v1
+        with:
+          build: "true"
+          build-args: "Erdos99"
