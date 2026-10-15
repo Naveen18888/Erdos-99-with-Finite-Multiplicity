@@ -1,5 +1,5 @@
 # Erd&odblac;s 99: an Affirmative Proof under Finite Multiplicity
-We derive a full affirmative proof of Erd&odblac;s Problem 99, proposed in 1994, in the case where h(n), the number of incongruent diameter-minimizing sets with minimum separation at least 1, is finite.
+We derive an affirmative proof of Erd&odblac;s Problem 99, proposed in 1994, in the case where h(n), the number of incongruent diameter-minimizing sets with minimum separation at least 1, is finite.
 
 In 1994, Paul Erd&odblac;s in [Some Problems in Number Theory, Combinatorics and Combinatorical Geometry](https://mathematica-pannonica.ttk.pte.hu/articles/mp05-2/mp05-2-261-269.pdf) presented the following conjecture.
 > Let
